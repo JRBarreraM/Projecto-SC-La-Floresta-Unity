@@ -12,6 +12,7 @@ public class CameraManager : MonoBehaviour
     private Transform thirdPersonCamera;
     private Transform freeCamera;
     private Transform activeCamera;
+    private int activeCameraName;
 
     void Awake ()
     {
@@ -31,20 +32,24 @@ public class CameraManager : MonoBehaviour
 
         activeObject = thirdPersonObject;
         activeCamera = thirdPersonCamera;
+        activeCameraName = 3;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown("1")) {
+        if (Input.GetKeyDown("1") && activeCameraName != 1) {
             ChangeCamera(firstPersonObject, firstPersonCamera, Vector3.zero);
+            activeCameraName = 1;
         }
 
-        if (Input.GetKeyDown("2")) {
+        if (Input.GetKeyDown("3") && activeCameraName != 3) {
             ChangeCamera(thirdPersonObject, thirdPersonCamera, Vector3.zero);
+            activeCameraName = 3;
         }
 
-        if (Input.GetKeyDown(KeyCode.F)) {
+        if (Input.GetKeyDown(KeyCode.F) && activeCameraName != 2) {
             ChangeCamera(freeObject, freeCamera, Vector3.up);
+            activeCameraName = 2;
         }
     }
 
