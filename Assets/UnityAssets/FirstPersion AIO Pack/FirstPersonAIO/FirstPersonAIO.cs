@@ -305,7 +305,7 @@ public class FirstPersonAIO : MonoBehaviour {
             }
         }
         cameraStartingPosition = playerCamera.transform.localPosition;
-        if(lockAndHideCursor) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
+        /* if(lockAndHideCursor) { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; } */
         baseCamFOV = playerCamera.fieldOfView;
         #endregion
 

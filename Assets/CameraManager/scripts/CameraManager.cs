@@ -19,10 +19,6 @@ public class CameraManager : MonoBehaviour
     private GameObject activeObject;
     private Transform activeCamera;
 
-    public Texture2D cursorTexture;
-    private CursorMode cursorMode = CursorMode.Auto;
-    private Vector2 hotSpot = Vector2.zero;
-
     private void Awake () {
         // Referencias de los objetos para cada camara
         firstPersonObject = GameObject.Find("FirstPersonCamera");
@@ -65,8 +61,6 @@ public class CameraManager : MonoBehaviour
         firstPersonCameraScript.enabled = !firstPersonCameraScript.enabled;
         thirdPersonCameraScript.enabled = !thirdPersonCameraScript.enabled;
         freeCameraScript.enabled = !freeCameraScript.enabled;
-
-        // Cursor.SetCursor(null, Vector2.zero, cursorMode);
     }
 
     private void Update() {
@@ -82,16 +76,15 @@ public class CameraManager : MonoBehaviour
             MainEventSystem.current.FreeCamera();
         }
 
-        if (Input.GetKeyDown("space")) {
+        if (Input.GetKeyDown(KeyCode.L)) {
             MainEventSystem.current.DisableCameras();
+            Cursor.visible = true;
         }
     }
 
     void ChangeCamera(GameObject selectedObject, Transform selectedCamera, Vector3 displacement) {
         if (selectedObject != activeObject) {
             activeObject.SetActive(false);
-            Debug.Log("Before");
-            Debug.Log(activeCamera.localRotation);
             selectedObject.transform.position = activeObject.transform.position + displacement;
 
             selectedCamera.localRotation = Quaternion.Euler(
@@ -103,8 +96,6 @@ public class CameraManager : MonoBehaviour
             activeObject = selectedObject;
             activeCamera = selectedCamera;
             activeObject.SetActive(true);
-            Debug.Log("After");
-            Debug.Log(activeCamera.localRotation);
         }
     }
 }
