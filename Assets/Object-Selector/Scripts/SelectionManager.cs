@@ -1,33 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SelectionManager : MonoBehaviour
 {
-    private GameObject textDisplay;
+    private GameObject infoDisplay;
     private GameObject interactMessage;
+    private LayerMask IgnoreMe;
+    private TextMeshProUGUI text;
+    private bool infoDisplayOn; 
 
     private void Awake(){
         interactMessage = GameObject.Find("InteractMessage");
-        textDisplay = GameObject.Find("ObjectInfo");
+        text = GameObject.Find("InteractMessage").transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        infoDisplay = GameObject.Find("ObjectInfo");
         interactMessage.gameObject.SetActive(false);
-        textDisplay.gameObject.SetActive(false);
+        infoDisplay.gameObject.SetActive(false);
+        IgnoreMe = LayerMask.GetMask("Ignore Selection");
+        infoDisplayOn = false;
     }
 
     private void Update(){
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)){
+        if (Physics.Raycast(ray, out hit, 7f, ~IgnoreMe)){
             var selection = hit.transform;
             if (selection.CompareTag("selectableTag")){
-                // var selectionRenderer = selection.GetComponent<Selectable>();
                 interactMessage.gameObject.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.I)){
-                    textDisplay.gameObject.SetActive(true);
+                    if (!infoDisplayOn){
+                        infoDisplay.gameObject.SetActive(true);
+                        text.SetText("Right click to uninteract");
+                        infoDisplayOn = true;
+                    }
+                    else{
+                        infoDisplay.gameObject.SetActive(false);
+                        text.SetText("Right click to interact");
+                        infoDisplayOn = false;
+                    }
                 }
             }else{
                 interactMessage.gameObject.SetActive(false);
+                infoDisplay.gameObject.SetActive(false);
+                text.SetText("Right click to interact");
+                infoDisplayOn = false;
             }
+        }else{
+            interactMessage.gameObject.SetActive(false);
+            infoDisplay.gameObject.SetActive(false);
+            text.SetText("Right click to interact");
+            infoDisplayOn = false;
         }
     }
 }

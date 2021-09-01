@@ -11,6 +11,20 @@ public class MainEventSystem : MonoBehaviour
         current = this;
     }
 
+    public event Action onFullMap;
+    public void FullMap() {
+        if (onFullMap != null) {
+            onFullMap();
+        }
+    }
+
+    public event Action onMiniMap;
+    public void MiniMap() {
+        if (onMiniMap != null) {
+            onMiniMap();
+        }
+    }
+
     public event Action onFirstPersonCamera;
     public void FirstPersonCamera() {
         if (onFirstPersonCamera != null) {

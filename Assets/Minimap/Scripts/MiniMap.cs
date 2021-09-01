@@ -6,15 +6,14 @@ public enum MiniMapMode
 {
     Mini, Fullscreen
 }
+
 public class MiniMap : MonoBehaviour
 {
     public static MiniMap Instance;
 
-    [SerializeField]
-    Vector2 miniSizeDimensions = new Vector2(15, 15);
+    private Vector2 miniSizeDimensions = new Vector2(150, 150);
 
-    [SerializeField]
-    Vector2 fullScreenDimensions = new Vector2(15, 15);
+    private Vector2 fullScreenDimensions = new Vector2(790, 350);
 
     [SerializeField]
     float scrollSpeed = 0.1f;
@@ -24,9 +23,6 @@ public class MiniMap : MonoBehaviour
 
     [SerializeField]
     float minZoom = 1f;
-
-    // [SerializeField]
-    // Terrain terrain;
 
     [SerializeField]
     RectTransform scrollViewRectTransform;
@@ -38,9 +34,8 @@ public class MiniMap : MonoBehaviour
     MiniMapIcon miniMapIconPrefab;
 
     Matrix4x4 transformationMatrix;
-    Vector2 halfVector2 = new Vector2(0.5f, 0.5f);
-    private MiniMapMode currentMiniMapMode = MiniMapMode.Mini;
     private MiniMapIcon playerMiniMapIcon;
+    private MiniMapMode currentMiniMapMode = MiniMapMode.Mini;
     Dictionary<MiniMapWorldObject, MiniMapIcon> miniMapWorldObjectsLookup = new Dictionary<MiniMapWorldObject, MiniMapIcon>();
     private void Awake()
     {
@@ -59,11 +54,39 @@ public class MiniMap : MonoBehaviour
             // toggle mode
             SetMiniMapMode(currentMiniMapMode == MiniMapMode.Mini ? MiniMapMode.Fullscreen : MiniMapMode.Mini);
         }
-
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         ScrollMap(scroll);
         UpdateMiniMapIcons();
         CenterMiniMapOnPlayer();
+    }
+
+    private void SetFullMap() {
+        MainEventSystem.current.FullMap();
+    }
+
+    private void SetMiniMap() {
+        MainEventSystem.current.MiniMap();
+    }
+
+    public void SetMiniMapMode(MiniMapMode mode)
+    {
+        if (mode == currentMiniMapMode)
+            return;
+
+        switch (mode)
+        {
+            case MiniMapMode.Mini:
+                scrollViewRectTransform.sizeDelta = miniSizeDimensions;
+                currentMiniMapMode = MiniMapMode.Mini;
+                SetMiniMap();
+                break;
+            case MiniMapMode.Fullscreen:
+                scrollViewRectTransform.sizeDelta = fullScreenDimensions;
+                currentMiniMapMode = MiniMapMode.Fullscreen;
+                SetFullMap();
+                break;
+        }
+        CalculateTransformationMatrix();
     }
 
     public void RegisterMiniMapWorldObject(MiniMapWorldObject miniMapWorldObject, bool isPlayer = false)
@@ -86,30 +109,6 @@ public class MiniMap : MonoBehaviour
         {
             miniMapWorldObjectsLookup.Remove(miniMapWorldObject);
             Destroy(icon.gameObject);
-        }
-    }
-
-    public void SetMiniMapMode(MiniMapMode mode)
-    {
-        if (mode == currentMiniMapMode)
-            return;
-
-        switch (mode)
-        {
-            case MiniMapMode.Mini:
-                scrollViewRectTransform.sizeDelta = miniSizeDimensions;
-                scrollViewRectTransform.anchorMin = Vector2.one;
-                scrollViewRectTransform.anchorMax = Vector2.one;
-                scrollViewRectTransform.pivot = Vector2.one;
-                currentMiniMapMode = MiniMapMode.Mini;
-                break;
-            case MiniMapMode.Fullscreen:
-                scrollViewRectTransform.sizeDelta = fullScreenDimensions;
-                scrollViewRectTransform.anchorMin = halfVector2;
-                scrollViewRectTransform.anchorMax = halfVector2;
-                scrollViewRectTransform.pivot = Vector2.one;
-                currentMiniMapMode = MiniMapMode.Fullscreen;
-                break;
         }
     }
 

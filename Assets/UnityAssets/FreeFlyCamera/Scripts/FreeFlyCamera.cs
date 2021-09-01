@@ -101,6 +101,16 @@ public class FreeFlyCamera : MonoBehaviour
     {
         _initPosition = transform.position;
         _initRotation = transform.eulerAngles;
+        MainEventSystem.current.onFullMap += SetMovementInactive;
+        MainEventSystem.current.onMiniMap += SetMovementActive;
+    }
+
+    private void SetMovementInactive(){
+        _enableMovement = false;
+    }
+
+    private void SetMovementActive(){
+        _enableMovement = true;
     }
 
     private void OnEnable()
