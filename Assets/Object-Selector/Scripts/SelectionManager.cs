@@ -32,6 +32,7 @@ public class SelectionManager : MonoBehaviour
                     if (!infoDisplayOn){
                         infoDisplay.gameObject.SetActive(true);
                         text.SetText("Right click to uninteract");
+                        selection.GetComponent<InteractableObject>().ShowData();
                         infoDisplayOn = true;
                     }
                     else{
