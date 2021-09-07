@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class CameraUIHandler : MonoBehaviour
 {
-
     public void SetFirstPersonCamera() {
-        Debug.Log("Primera");
-        MainEventSystem.current.FirstPersonCamera();
+        MainEventSystem.current.FirstPersonCameraOn();
     }
     public void SetThirdPersonCamera() {
-        Debug.Log("Tercera");
-        MainEventSystem.current.ThirdPersonCamera();
+        MainEventSystem.current.ThirdPersonCameraOn();
     }
     public void SetFreeCamera() {
-        Debug.Log("Libre");
-        MainEventSystem.current.FreeCamera();
+        MainEventSystem.current.FreeCameraOn();
     }
 }

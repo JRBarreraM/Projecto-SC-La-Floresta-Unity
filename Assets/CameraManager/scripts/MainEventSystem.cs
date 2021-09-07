@@ -11,24 +11,45 @@ public class MainEventSystem : MonoBehaviour
         current = this;
     }
 
+    // First Person Camera Events
     public event Action onFirstPersonCamera;
-    public void FirstPersonCamera() {
+    public event Action offFirstPersonCamera;
+    public void FirstPersonCameraOn() {
         if (onFirstPersonCamera != null) {
             onFirstPersonCamera();
         }
     }
+    public void FirstPersonCameraOff() {
+        if (offFirstPersonCamera != null) {
+            offFirstPersonCamera();
+        }
+    }
 
+    // Third Person Camera Events
     public event Action onThirdPersonCamera;
-    public void ThirdPersonCamera() {
+    public event Action offThirdPersonCamera;
+    public void ThirdPersonCameraOn() {
         if (onThirdPersonCamera != null) {
             onThirdPersonCamera();
         }
     }
+    public void ThirdPersonCameraOff() {
+        if (offThirdPersonCamera != null) {
+            offThirdPersonCamera();
+        }
+    }
 
+    // Free Person Camera Events
     public event Action onFreeCamera;
-    public void FreeCamera() {
+    public event Action offFreeCamera;
+    public void FreeCameraOn() {
         if (onFreeCamera != null) {
             onFreeCamera();
+        }
+    }
+    public void FreeCameraOff() {
+        if (offFreeCamera != null) {
+            offFreeCamera();
         }
     }
 
