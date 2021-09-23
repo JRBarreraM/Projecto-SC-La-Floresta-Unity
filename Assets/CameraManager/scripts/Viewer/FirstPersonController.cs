@@ -72,6 +72,7 @@ public class FirstPersonController : MonoBehaviour {
     // Cursor management
     private void DisableCamera() {
         firstPersonCameraEnabled = false;
+        freeCameraEnabled = false;
         CursorVisibility (true);
         CursonMode(false);
     }

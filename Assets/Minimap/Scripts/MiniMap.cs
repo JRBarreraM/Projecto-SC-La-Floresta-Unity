@@ -161,10 +161,10 @@ public class MiniMap : MonoBehaviour
     {
         var miniMapDimensions = contentRectTransform.rect.size;
         Debug.Log(miniMapDimensions);
-        var terrainDimensions = new Vector2(80, 80);
+        var terrainDimensions = new Vector2(30, 30);
         var scaleRatio = miniMapDimensions / terrainDimensions;
         Debug.Log(scaleRatio);
-        var translation = new Vector2(-15, -1);
+        var translation = new Vector2(0, 0);
         // var translation = new Vector2(1,0);
         transformationMatrix = Matrix4x4.TRS(translation, Quaternion.identity, scaleRatio);
 

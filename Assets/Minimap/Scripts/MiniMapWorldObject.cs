@@ -13,7 +13,16 @@ public class MiniMapWorldObject : MonoBehaviour
 
     private void Start()
     {
+        if(isPlayer)
+            MiniMap.Instance.RegisterMiniMapWorldObject(this, isPlayer);
+    }
+
+    public void Show(){
         MiniMap.Instance.RegisterMiniMapWorldObject(this, isPlayer);
+    }
+
+    public void Hide(){
+        MiniMap.Instance.DestroyCorrespondingMiniMapIcon(this);
     }
 
     private void OnDestroy()
