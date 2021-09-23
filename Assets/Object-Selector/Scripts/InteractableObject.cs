@@ -14,6 +14,10 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private string specie;
 
+    public int Height { get { return height; } set {} }
+    public int Age { get { return age; } set {} }
+    public string Specie { get { return specie; } set {} }
+
     private void Awake(){
         text = GameObject.Find("ObjectInfo").transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
     }

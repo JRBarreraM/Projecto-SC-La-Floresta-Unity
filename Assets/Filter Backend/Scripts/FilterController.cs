@@ -1,59 +1,80 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class FilterController
 {
-    public static List<InteractableObject> ProccessFilters(InteractableObject[] interactableObjects, List<Filter> filters) {
-        List<InteractableObject> filteredObjects;
-        InteractableObject[] currentObjects = interactableObjects;
+    public static List<InteractableObject> ProccessFilters(List<InteractableObject> Objects, List<Filter> filters) {
+        List<InteractableObject> interactableObjects = Objects;
 
         filters.ForEach(filter => {
-            for (int i = 0; i < interactableObjects.Length; i++) {
+            List<InteractableObject> filteredObjects = new List<InteractableObject>();
+            interactableObjects.ForEach(obj => {
                 switch (filter.name) {
                     case "height":
+                        int height_value = Convert.ToInt32(filter.val);
                         switch (filter.op) {
                             case "<":
-                                if (interactableObjects[i].height < filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height < height_value) filteredObjects.Add(obj);
+                                break;
                             case ">":
-                                if (interactableObjects[i].height > filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height > height_value) filteredObjects.Add(obj);
+                                break;
                             case ">=":
-                                if (interactableObjects[i].height >= filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height >= height_value) filteredObjects.Add(obj);
+                                break;
                             case "<=":
-                                if (interactableObjects[i].height <= filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height <= height_value) filteredObjects.Add(obj);
+                                break;
                             case "=":
-                                if (interactableObjects[i].height == filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height == height_value) filteredObjects.Add(obj);
+                                break;
                             case "~=":
-                                if (interactableObjects[i].height != filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Height != height_value) filteredObjects.Add(obj);
+                                break;
                         }
+                        break;
 
                     case "age":
+                        int age_value = Convert.ToInt32(filter.val);
                         switch (filter.op) {
                             case "<":
-                                if (interactableObjects[i].age < filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age < age_value) filteredObjects.Add(obj);
+                                break;
                             case ">":
-                                if (interactableObjects[i].age > filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age > age_value) filteredObjects.Add(obj);
+                                break;
                             case ">=":
-                                if (interactableObjects[i].age >= filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age >= age_value) filteredObjects.Add(obj);
+                                break;
                             case "<=":
-                                if (interactableObjects[i].age <= filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age <= age_value) filteredObjects.Add(obj);
+                                break;
                             case "=":
-                                if (interactableObjects[i].age == filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age == age_value) filteredObjects.Add(obj);
+                                break;
                             case "~=":
-                                if (interactableObjects[i].age != filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Age != age_value) filteredObjects.Add(obj);
+                                break;
                         }
+                        break;
 
                     case "specie":
                         switch (filter.op) {
                             case "=":
-                                if (interactableObjects[i].specie == filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Specie == filter.val) filteredObjects.Add(obj);
+                                break;
                             case "~=":
-                                if (interactableObjects[i].specie != filter.value) filteredObjects.Add(interactableObjects[i]);
+                                if (obj.Specie != filter.val) filteredObjects.Add(obj);
+                                break;
                         }
+                        break;
                 }
-            }
-
-            filteredObjects
+            });
+            interactableObjects = filteredObjects;
         });
+        
+        return interactableObjects;
     }
 }
