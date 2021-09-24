@@ -5,8 +5,8 @@ using UnityEngine;
 
 public static class FilterController
 {
-    public static List<InteractableObject> ProccessFilters(List<InteractableObject> Objects, List<Filter> filters) {
-        List<InteractableObject> interactableObjects = Objects;
+    public static List<InteractableObject> ProccessFilters(List<InteractableObject> objects, List<Filter> filters) {
+        List<InteractableObject> interactableObjects = objects;
 
         filters.ForEach(filter => {
             List<InteractableObject> filteredObjects = new List<InteractableObject>();
@@ -76,5 +76,17 @@ public static class FilterController
         });
         
         return interactableObjects;
+    }
+
+    public static void ActivateFilteredObjects(List<InteractableObject> objects) {
+        objects.ForEach( obj => {
+            obj.ShowFilter();
+        });
+    }
+
+    public static void DeactivateFilteredObjects(List<InteractableObject> objects) {
+        objects.ForEach( obj => {
+            obj.HideFilter();
+        });
     }
 }

@@ -18,9 +18,6 @@ public class FilterTester : MonoBehaviour
         List<Filter> myFilters = new List<Filter>() { filter1, filter2, filter3 };
 
         List<InteractableObject> filteredObjects =  FilterController.ProccessFilters(new List<InteractableObject>(interactableObjects), myFilters);
-
-        filteredObjects.ForEach( obj => {
-            Debug.Log(obj.Height + " -- " + obj.Age + "--" + obj.Specie);
-        });
+        FilterController.ActivateFilteredObjects(filteredObjects);
     }
 }
