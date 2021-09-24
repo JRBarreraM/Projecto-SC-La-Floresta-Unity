@@ -13,7 +13,14 @@ public static class FilterController
             interactableObjects.ForEach(obj => {
                 switch (filter.name) {
                     case "height":
-                        int height_value = Convert.ToInt32(filter.val);
+                        int height_value = 0;
+                        try {
+                            height_value = Convert.ToInt32(filter.val);
+                        }
+                        catch(Exception e) {
+                            Debug.Log(e);
+                        }
+
                         switch (filter.op) {
                             case "<":
                                 if (obj.Height < height_value) filteredObjects.Add(obj);
@@ -37,7 +44,14 @@ public static class FilterController
                         break;
 
                     case "age":
-                        int age_value = Convert.ToInt32(filter.val);
+                        int age_value = 0;
+                        try {
+                            age_value = Convert.ToInt32(filter.val);
+                        }
+                        catch(Exception e) {
+                            Debug.Log(e);
+                        }
+                        
                         switch (filter.op) {
                             case "<":
                                 if (obj.Age < age_value) filteredObjects.Add(obj);
@@ -80,6 +94,7 @@ public static class FilterController
 
     public static void ActivateFilteredObjects(List<InteractableObject> objects) {
         objects.ForEach( obj => {
+            Debug.Log(obj.Height);
             obj.ShowFilter();
         });
     }

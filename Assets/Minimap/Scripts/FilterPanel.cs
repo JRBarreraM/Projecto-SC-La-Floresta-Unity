@@ -17,13 +17,15 @@ public class FilterPanel : MonoBehaviour
 
     public void SendData(){
         foreach (Transform child in transform.Find("Filters").gameObject.transform){
-            attribute = child.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString();
-            operation = child.transform.GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString();
-            value = child.transform.GetChild(2).GetChild(0).GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text.ToString();
-            filters.Add(new Filter(attribute, operation, value));
+            attribute = child.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+            operation = child.transform.GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+            value = child.transform.GetChild(2).GetChild(0).GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+
+            string clean_value = value.ToString();
+            filters.Add(new Filter(attribute, operation, clean_value));
         }
 
-        List<InteractableObject> filteredObjects =  FilterController.ProccessFilters(new List<InteractableObject>(interactableObjects), filters);
+        List<InteractableObject> filteredObjects = FilterController.ProccessFilters(new List<InteractableObject>(interactableObjects), filters);
         FilterController.ActivateFilteredObjects(filteredObjects);
     }
 }
