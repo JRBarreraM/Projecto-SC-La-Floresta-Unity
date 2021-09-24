@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,11 +18,13 @@ public class FilterPanel : MonoBehaviour
 
     public void SendData(){
         foreach (Transform child in transform.Find("Filters").gameObject.transform){
-            attribute = child.transform.GetChild(0).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
-            operation = child.transform.GetChild(1).GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
-            value = child.transform.GetChild(2).GetChild(0).GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
-
-            string clean_value = value.ToString();
+            attribute = child.transform.Find("Attribute/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+            operation = child.transform.Find("Operator/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+            value = child.transform.Find("Value").gameObject.GetComponent<TMP_InputField>().text.Trim();
+            if(Int32.TryParse(value, out int temp)){
+                value = temp.ToString();
+            }
+            string clean_value = value;
             filters.Add(new Filter(attribute, operation, clean_value));
         }
 
