@@ -54,7 +54,7 @@ public static class FilterController
                             case "=":
                                 if (obj.Age == age_value) filteredObjects.Add(obj);
                                 break;
-                            case "~=":
+                            case "!=":
                                 if (obj.Age != age_value) filteredObjects.Add(obj);
                                 break;
                         }
@@ -65,7 +65,7 @@ public static class FilterController
                             case "=":
                                 if (obj.Specie == filter.val) filteredObjects.Add(obj);
                                 break;
-                            case "~=":
+                            case "!=":
                                 if (obj.Specie != filter.val) filteredObjects.Add(obj);
                                 break;
                         }
