@@ -37,7 +37,7 @@ public static class FilterController
                             case "=":
                                 if (obj.Height == height_value) filteredObjects.Add(obj);
                                 break;
-                            case "~=":
+                            case "!=":
                                 if (obj.Height != height_value) filteredObjects.Add(obj);
                                 break;
                         }

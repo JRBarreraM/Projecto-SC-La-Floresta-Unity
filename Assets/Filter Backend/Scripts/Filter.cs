@@ -11,4 +11,8 @@ public struct Filter {
         this.op = op;
         this.val = val;
     }
+
+    public string AsString(){
+        return name + op + val;
+    }
 }

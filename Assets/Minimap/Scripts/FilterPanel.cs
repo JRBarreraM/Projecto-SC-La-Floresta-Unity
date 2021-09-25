@@ -37,8 +37,8 @@ public class FilterPanel : MonoBehaviour
     }
 
     public void AddFilter(){
-        Debug.Log(UIFilters.Count);
-        Debug.Log(numOfActiveFilters);
+        // Debug.Log(UIFilters.Count);
+        // Debug.Log(numOfActiveFilters);
         if (numOfActiveFilters < UIFilters.Count){
             UIFilters[numOfActiveFilters].SetActive(true);
             numOfActiveFilters++;
@@ -46,8 +46,8 @@ public class FilterPanel : MonoBehaviour
     }
 
     public void RemoveFilter(){
-        Debug.Log(UIFilters.Count);
-        Debug.Log(numOfActiveFilters);
+        // Debug.Log(UIFilters.Count);
+        // Debug.Log(numOfActiveFilters);
         if (2 <= numOfActiveFilters){
             UIFilters[numOfActiveFilters-1].SetActive(false);
             numOfActiveFilters--;
@@ -58,20 +58,77 @@ public class FilterPanel : MonoBehaviour
         FilterController.DeactivateFilteredObjects(interactableObjects);
     }
 
+    private string inputValidator(string attribute, string operation, string value){
+        if (value == "")
+            return "No value detected";
+        int temp;
+        string error = "";
+        switch (attribute)
+        {
+            case "height":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+            case "age":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+            case "specie":
+                switch (operation)
+                {
+                    case ">":
+                        error = "Invalid operator for attribute";
+                        break;
+                    case "<":
+                        error = "Invalid operator for attribute";
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+        return error;
+    }
+
     public void SendData(){
         filters = new List<Filter>();
+        bool errorFound = false;
         foreach (Transform child in transform.Find("Content/Filters").gameObject.transform){
             attribute = child.transform.Find("Attribute/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
             operation = child.transform.Find("Operator/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
             value = child.transform.Find("Value").gameObject.GetComponent<TMP_InputField>().text.Trim();
-            // Aqui Hacer Validaciones del Value
+            TextMeshProUGUI errorMsg = child.transform.Find("ErrorMsg").gameObject.GetComponent<TextMeshProUGUI>();
+            errorMsg.text = (inputValidator(attribute,operation,value));
+            if (errorMsg.text != ""){
+                errorFound = true;
+                continue;
+            }
             if(Int32.TryParse(value, out int temp)){
                 value = temp.ToString();
             }
             string clean_value = value;
             filters.Add(new Filter(attribute, operation, clean_value));
+            // Debug.Log(attribute);
+            // Debug.Log(operation);
+            // Debug.Log(clean_value);
+            filters[0].AsString();
         }
-
+        if (errorFound)
+            return;
+        Debug.Log(filters[0].AsString());
+        Debug.Log(filters.Count);
         List<InteractableObject> filteredObjects = FilterController.ProccessFilters(interactableObjects, filters);
         FilterController.ActivateFilteredObjects(filteredObjects);
     }
