@@ -94,7 +94,6 @@ public static class FilterController
 
     public static void ActivateFilteredObjects(List<InteractableObject> objects) {
         objects.ForEach( obj => {
-            Debug.Log(obj.Height);
             obj.ShowFilter();
         });
     }

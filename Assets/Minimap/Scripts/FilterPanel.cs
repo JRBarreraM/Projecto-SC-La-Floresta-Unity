@@ -19,12 +19,17 @@ public class FilterPanel : MonoBehaviour
         interactableObjects = new List<InteractableObject>(GameObject.FindObjectsOfType<InteractableObject>());
         UIContent = transform.Find("Content").gameObject;
         int children = transform.Find("Content/Filters").gameObject.transform.childCount;
-        Debug.Log(children);
         for (int i = 0; i < children; ++i)
             UIFilters.Add(transform.Find("Content/Filters").gameObject.transform.GetChild(i).gameObject);
         for (int i = 1; i < children; ++i)
             UIFilters[i].SetActive(false);
         UIContent.SetActive(false);
+    }
+
+    private void Start(){
+        TMP_InputField value = transform.Find("Content/Filters/Filter/Value").gameObject.transform.GetComponent<TMP_InputField>();
+        value.text = "15";
+        SendData();
     }
 
     private void Update(){
@@ -37,8 +42,6 @@ public class FilterPanel : MonoBehaviour
     }
 
     public void AddFilter(){
-        // Debug.Log(UIFilters.Count);
-        // Debug.Log(numOfActiveFilters);
         if (numOfActiveFilters < UIFilters.Count){
             UIFilters[numOfActiveFilters].SetActive(true);
             numOfActiveFilters++;
@@ -46,8 +49,6 @@ public class FilterPanel : MonoBehaviour
     }
 
     public void RemoveFilter(){
-        // Debug.Log(UIFilters.Count);
-        // Debug.Log(numOfActiveFilters);
         if (2 <= numOfActiveFilters){
             UIFilters[numOfActiveFilters-1].SetActive(false);
             numOfActiveFilters--;
@@ -106,29 +107,26 @@ public class FilterPanel : MonoBehaviour
         filters = new List<Filter>();
         bool errorFound = false;
         foreach (Transform child in transform.Find("Content/Filters").gameObject.transform){
-            attribute = child.transform.Find("Attribute/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
-            operation = child.transform.Find("Operator/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
-            value = child.transform.Find("Value").gameObject.GetComponent<TMP_InputField>().text.Trim();
-            TextMeshProUGUI errorMsg = child.transform.Find("ErrorMsg").gameObject.GetComponent<TextMeshProUGUI>();
-            errorMsg.text = (inputValidator(attribute,operation,value));
-            if (errorMsg.text != ""){
-                errorFound = true;
-                continue;
+            if (child.gameObject.activeSelf){
+                attribute = child.Find("Attribute/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+                operation = child.Find("Operator/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
+                value = child.Find("Value").gameObject.GetComponent<TMP_InputField>().text.Trim();
+                TextMeshProUGUI errorMsg = child.Find("ErrorMsg").gameObject.GetComponent<TextMeshProUGUI>();
+                errorMsg.text = (inputValidator(attribute,operation,value));
+                Debug.Log(errorMsg.text);
+                if (errorMsg.text != ""){
+                    errorFound = true;
+                    continue;
+                }
+                if(Int32.TryParse(value, out int temp)){
+                    value = temp.ToString();
+                }
+                string clean_value = value;
+                filters.Add(new Filter(attribute, operation, clean_value));
             }
-            if(Int32.TryParse(value, out int temp)){
-                value = temp.ToString();
-            }
-            string clean_value = value;
-            filters.Add(new Filter(attribute, operation, clean_value));
-            // Debug.Log(attribute);
-            // Debug.Log(operation);
-            // Debug.Log(clean_value);
-            filters[0].AsString();
         }
         if (errorFound)
             return;
-        Debug.Log(filters[0].AsString());
-        Debug.Log(filters.Count);
         List<InteractableObject> filteredObjects = FilterController.ProccessFilters(interactableObjects, filters);
         FilterController.ActivateFilteredObjects(filteredObjects);
     }
