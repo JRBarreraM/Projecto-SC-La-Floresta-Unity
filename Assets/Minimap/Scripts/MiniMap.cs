@@ -88,6 +88,7 @@ public class MiniMap : MonoBehaviour
                 // scrollViewRectTransform.pivot = new Vector2(0, 1);
                 currentMiniMapMode = MiniMapMode.Mini;
                 SetMiniMap();
+                MainEventSystem.current.EnableCurrentCamera();
                 break;
             case MiniMapMode.Fullscreen:
                 scrollViewRectTransform.sizeDelta = fullScreenDimensions;
@@ -98,6 +99,7 @@ public class MiniMap : MonoBehaviour
                 // scrollViewRectTransform.offsetMax = new Vector2(-5, -5);
                 currentMiniMapMode = MiniMapMode.Fullscreen;
                 SetFullMap();
+                MainEventSystem.current.DisableCameras();
                 break;
         }
         CalculateTransformationMatrix();

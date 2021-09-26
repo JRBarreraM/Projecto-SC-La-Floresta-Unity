@@ -34,10 +34,14 @@ public class FilterPanel : MonoBehaviour
 
     private void Update(){
         if (Input.GetKeyDown(KeyCode.P)){
-            if(UIContent.activeSelf)
+            if(UIContent.activeSelf){
                 UIContent.SetActive(false);
-            else
+                MainEventSystem.current.EnableCurrentCamera();
+            }
+            else {
                 UIContent.SetActive(true);
+                MainEventSystem.current.DisableCameras();
+            }
         }
     }
 

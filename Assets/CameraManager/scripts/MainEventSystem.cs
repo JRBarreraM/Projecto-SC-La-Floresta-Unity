@@ -67,6 +67,13 @@ public class MainEventSystem : MonoBehaviour
         }
     }
 
+    public event Action onEnableCurrentCamera;
+    public void EnableCurrentCamera() {
+        if (onEnableCurrentCamera != null) {
+            onEnableCurrentCamera();
+        }
+    }
+
     public event Action onDisableCameras;
     public void DisableCameras() {
         if (onDisableCameras != null) {
