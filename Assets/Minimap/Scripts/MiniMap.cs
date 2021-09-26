@@ -11,9 +11,9 @@ public class MiniMap : MonoBehaviour
 {
     public static MiniMap Instance;
 
-    private Vector2 miniSizeDimensions = new Vector2(150, 150);
+    private Vector2 miniSizeDimensions;
 
-    private Vector2 fullScreenDimensions = new Vector2(790, 350);
+    private Vector2 fullScreenDimensions;
 
     [SerializeField]
     float scrollSpeed = 0.1f;
@@ -44,6 +44,11 @@ public class MiniMap : MonoBehaviour
 
     private void Start()
     {
+        Canvas canvas = FindObjectOfType<Canvas>();
+        float w = canvas.GetComponent<RectTransform>().rect.width;
+        float h = canvas.GetComponent<RectTransform>().rect.height;
+        miniSizeDimensions = new Vector2(150, 150);
+        fullScreenDimensions = new Vector2(w+5.0f, h+5.0f);
         CalculateTransformationMatrix();
     }
 
@@ -77,12 +82,21 @@ public class MiniMap : MonoBehaviour
         {
             case MiniMapMode.Mini:
                 scrollViewRectTransform.sizeDelta = miniSizeDimensions;
+                // scrollViewRectTransform.transform.position = new Vector3(-2,2,0);
+                // scrollViewRectTransform.anchorMin = new Vector2(0, 1);
+                // scrollViewRectTransform.anchorMax = new Vector2(0, 1);
+                // scrollViewRectTransform.pivot = new Vector2(0, 1);
                 currentMiniMapMode = MiniMapMode.Mini;
                 SetMiniMap();
                 MainEventSystem.current.EnableCurrentCamera();
                 break;
             case MiniMapMode.Fullscreen:
                 scrollViewRectTransform.sizeDelta = fullScreenDimensions;
+                // scrollViewRectTransform.anchorMin = new Vector2(0, 0);
+                // scrollViewRectTransform.anchorMax = new Vector2(1, 1);
+                // scrollViewRectTransform.pivot = new Vector2(0.5f, 0.5f);
+                // scrollViewRectTransform.offsetMin = new Vector2(-5, -5);
+                // scrollViewRectTransform.offsetMax = new Vector2(-5, -5);
                 currentMiniMapMode = MiniMapMode.Fullscreen;
                 SetFullMap();
                 MainEventSystem.current.DisableCameras();
