@@ -34,10 +34,14 @@ public class FilterPanel : MonoBehaviour
 
     private void Update(){
         if (Input.GetKeyDown(KeyCode.P)){
-            if(UIContent.activeSelf)
+            if(UIContent.activeSelf){
                 UIContent.SetActive(false);
-            else
+                MainEventSystem.current.EnableCurrentCamera();
+            }
+            else {
                 UIContent.SetActive(true);
+                MainEventSystem.current.DisableCameras();
+            }
         }
     }
 
@@ -113,7 +117,6 @@ public class FilterPanel : MonoBehaviour
                 value = child.Find("Value").gameObject.GetComponent<TMP_InputField>().text.Trim();
                 TextMeshProUGUI errorMsg = child.Find("ErrorMsg").gameObject.GetComponent<TextMeshProUGUI>();
                 errorMsg.text = (inputValidator(attribute,operation,value));
-                Debug.Log(errorMsg.text);
                 if (errorMsg.text != ""){
                     errorFound = true;
                     continue;

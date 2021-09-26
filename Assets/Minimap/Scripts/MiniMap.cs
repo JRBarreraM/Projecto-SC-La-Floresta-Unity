@@ -79,11 +79,13 @@ public class MiniMap : MonoBehaviour
                 scrollViewRectTransform.sizeDelta = miniSizeDimensions;
                 currentMiniMapMode = MiniMapMode.Mini;
                 SetMiniMap();
+                MainEventSystem.current.EnableCurrentCamera();
                 break;
             case MiniMapMode.Fullscreen:
                 scrollViewRectTransform.sizeDelta = fullScreenDimensions;
                 currentMiniMapMode = MiniMapMode.Fullscreen;
                 SetFullMap();
+                MainEventSystem.current.DisableCameras();
                 break;
         }
         CalculateTransformationMatrix();
