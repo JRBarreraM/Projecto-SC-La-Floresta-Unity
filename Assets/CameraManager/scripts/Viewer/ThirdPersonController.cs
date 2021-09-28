@@ -16,7 +16,10 @@ public class ThirdPersonController : MonoBehaviour {
 
 	private bool thirdPersonCameraEnabled = false;
 
+	Animator animator;
+
 	private void Start() {
+		animator = GetComponent<Animator> ();
 		MainEventSystem.current.onThirdPersonCamera += EnableThirdPersonCamera;
         MainEventSystem.current.offThirdPersonCamera += DisableThirdPersonCamera;
     }
@@ -50,6 +53,9 @@ public class ThirdPersonController : MonoBehaviour {
 			currentSpeed = Mathf.SmoothDamp (currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
 			transform.Translate (transform.forward * currentSpeed * Time.deltaTime, Space.World);
+
+			float animationSpeedPercent = ((running) ? 1 : .5f) * inputDir.magnitude;
+			animator.SetFloat ("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
 		}
 	}
 }
