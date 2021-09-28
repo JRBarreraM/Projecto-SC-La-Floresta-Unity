@@ -39,7 +39,7 @@ public class ThirdPersonCameraController : MonoBehaviour {
         }
     }
 
-	// Cursor management
+	// Cursor management 
     private void DisableCamera() {
 		thirdPersonCameraEnabled = false;
         CursorVisibility (true);
