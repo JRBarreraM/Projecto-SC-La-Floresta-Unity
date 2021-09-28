@@ -1,3 +1,5 @@
+// Credits to Sebastian Lague from https://github.com/SebLague/Blender-to-Unity-Character-Creation
+
 using UnityEngine;
 
 public class ThirdPersonController : MonoBehaviour {

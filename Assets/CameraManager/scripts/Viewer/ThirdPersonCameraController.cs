@@ -1,3 +1,5 @@
+// Credits to Sebastian Lague from https://github.com/SebLague/Blender-to-Unity-Character-Creation
+
 using UnityEngine;
 using System.Collections;
 
