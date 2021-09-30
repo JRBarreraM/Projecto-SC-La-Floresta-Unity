@@ -1,19 +1,15 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PersonController : MonoBehaviour
 {
     public float gravityForce = 0.1f;
     private bool groundCollition = false;
     private bool isFreeCamera = false;
-    private Rigidbody rb;
 
     private void Start()
     {
         MainEventSystem.current.onFreeCamera += EnableFreeCamera;
         MainEventSystem.current.offFreeCamera += DisableFreeCamera;
-
-        rb = GetComponent<Rigidbody>();
     }
 
     private void EnableFreeCamera() { isFreeCamera = true; }

@@ -26,11 +26,11 @@ public class FilterPanel : MonoBehaviour
         UIContent.SetActive(false);
     }
 
-    private void Start(){
+    /* private void Start(){
         TMP_InputField value = transform.Find("Content/Filters/Filter/Value").gameObject.transform.GetComponent<TMP_InputField>();
         value.text = "15";
         SendData();
-    }
+    } */
 
     private void Update(){
         if (Input.GetKeyDown(KeyCode.P)){

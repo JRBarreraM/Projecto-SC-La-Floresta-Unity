@@ -85,12 +85,13 @@ public class CameraManager : MonoBehaviour
             if (isCameraPanelEnabled) {
                 MainEventSystem.current.EnableCurrentCamera();
                 cameraPanel.SetActive(false);
+                isCameraPanelEnabled = false;
             }
             else {
                 MainEventSystem.current.DisableCameras();
                 cameraPanel.SetActive(true);
+                isCameraPanelEnabled = true;
             }
-            isCameraPanelEnabled = !isCameraPanelEnabled;
         }
     }
 }
