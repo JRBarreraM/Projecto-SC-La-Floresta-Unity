@@ -15,7 +15,6 @@ public class FirstPersonController : MonoBehaviour {
     float currentSpeed;
 
     [Header("Camera Setting")]
-    public bool controllerMode = false;
     public float camRotationSpeed = 5f;
     public float cameraMinimunY = -60f;
     public float cameraMaximunY = 75f;

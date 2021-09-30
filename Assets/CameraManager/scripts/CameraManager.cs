@@ -35,6 +35,7 @@ public class CameraManager : MonoBehaviour
         MainEventSystem.current.onFreeCamera += EnableFreeCamera;
         MainEventSystem.current.offFreeCamera += DisableFreeCamera;
         MainEventSystem.current.onEnableCurrentCamera += EnableCurrentCamera;
+        MainEventSystem.current.onDisableCameras += HandleDisableCameras;
         
         StartCoroutine(InitializeCamera());
     }
@@ -59,6 +60,10 @@ public class CameraManager : MonoBehaviour
         if (currentCamera == CurentCamera.third) MainEventSystem.current.ThirdPersonCameraOn();
         if (currentCamera == CurentCamera.free) MainEventSystem.current.FreeCameraOn();
     }
+    private void HandleDisableCameras() {
+        FPController.enabled = false;
+        TPController.enabled = false;
+    }
 
     private void Update() {
         if (Input.GetKeyDown("1")) {
@@ -66,12 +71,12 @@ public class CameraManager : MonoBehaviour
             MainEventSystem.current.FirstPersonCameraOn();
         }
 
-        if (Input.GetKeyDown("2")) {
+        if (Input.GetKeyDown("3")) {
             MainEventSystem.current.ThirdPersonCameraOn();
             MainEventSystem.current.FreeCameraOff();
         }
 
-        if (Input.GetKeyDown(KeyCode.F)) {
+        if (Input.GetKeyDown("2")) {
             MainEventSystem.current.FreeCameraOn();
         }
 
