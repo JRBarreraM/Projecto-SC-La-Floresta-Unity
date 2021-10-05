@@ -13,6 +13,7 @@ public class CameraManager : MonoBehaviour
     private ThirdPersonController TPController;
 
     private bool isCameraEnabled;
+    private bool canChangeCamera;
     private enum CurentCamera {first, third, free};
     private CurentCamera currentCamera;
 
@@ -47,6 +48,7 @@ public class CameraManager : MonoBehaviour
         isCameraEnabled = true;
         cameraPanel.SetActive(false);
         isCameraPanelEnabled = false;
+        canChangeCamera = true;
     }
 
     private void EnableFirstPersonCamera() { FPCamera.SetActive(true); FPController.enabled = true; currentCamera = CurentCamera.first; cameraPanel.SetActive(false); isCameraPanelEnabled = false; }
@@ -59,29 +61,33 @@ public class CameraManager : MonoBehaviour
         if (currentCamera == CurentCamera.first) MainEventSystem.current.FirstPersonCameraOn();
         if (currentCamera == CurentCamera.third) MainEventSystem.current.ThirdPersonCameraOn();
         if (currentCamera == CurentCamera.free) MainEventSystem.current.FreeCameraOn();
+        canChangeCamera = true;
     }
     private void HandleDisableCameras() {
         FPController.enabled = false;
         TPController.enabled = false;
+        canChangeCamera = false;
     }
 
     private void Update() {
-        if (Input.GetKeyDown("1")) {
+        if (Input.GetKeyDown("1") && canChangeCamera) {
             MainEventSystem.current.FreeCameraOff();
             MainEventSystem.current.FirstPersonCameraOn();
         }
 
-        if (Input.GetKeyDown("3")) {
+        if (Input.GetKeyDown("3") && canChangeCamera) {
             MainEventSystem.current.ThirdPersonCameraOn();
             MainEventSystem.current.FreeCameraOff();
         }
 
-        if (Input.GetKeyDown("2")) {
+        if (Input.GetKeyDown("2") && canChangeCamera) {
             MainEventSystem.current.FreeCameraOn();
         }
 
         if (Input.GetKeyDown(KeyCode.L)) {
-            if (isCameraEnabled) MainEventSystem.current.DisableCameras();
+            if (isCameraEnabled) {
+                MainEventSystem.current.DisableCameras();
+            }
             else MainEventSystem.current.EnableCurrentCamera();
             isCameraEnabled = !isCameraEnabled;
         }
@@ -93,9 +99,11 @@ public class CameraManager : MonoBehaviour
                 isCameraPanelEnabled = false;
             }
             else {
-                MainEventSystem.current.DisableCameras();
-                cameraPanel.SetActive(true);
-                isCameraPanelEnabled = true;
+                if (canChangeCamera) {
+                    MainEventSystem.current.DisableCameras();
+                    cameraPanel.SetActive(true);
+                    isCameraPanelEnabled = true;
+                }
             }
         }
     }

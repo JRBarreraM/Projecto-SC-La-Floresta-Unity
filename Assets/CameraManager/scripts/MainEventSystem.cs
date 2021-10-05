@@ -11,6 +11,20 @@ public class MainEventSystem : MonoBehaviour
         current = this;
     }
 
+    public event Action onBeginInteraction;
+    public void BeginInteraction() {
+        if (onBeginInteraction != null) {
+            onBeginInteraction();
+        }
+    }
+
+    public event Action onLeaveInteraction;
+    public void LeaveInteraction() {
+        if (onLeaveInteraction != null) {
+            onLeaveInteraction();
+        }
+    } 
+
     public event Action onFullMap;
     public void FullMap() {
         if (onFullMap != null) {

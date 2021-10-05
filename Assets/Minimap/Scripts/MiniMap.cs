@@ -43,6 +43,9 @@ public class MiniMap : MonoBehaviour
     private MiniMapIcon playerMiniMapIcon;
     private MiniMapMode currentMiniMapMode = MiniMapMode.Mini;
     Dictionary<MiniMapWorldObject, MiniMapIcon> miniMapWorldObjectsLookup = new Dictionary<MiniMapWorldObject, MiniMapIcon>();
+
+    private bool canSetMap;
+
     private void Awake()
     {
         Instance = this;
@@ -56,11 +59,20 @@ public class MiniMap : MonoBehaviour
         miniSizeDimensions = new Vector2(widthMiniSize, heightMiniSize);
         fullScreenDimensions = new Vector2(w+5.0f, h+5.0f);
         CalculateTransformationMatrix();
+
+        canSetMap = true;
+
+        MainEventSystem.current.onEnableCurrentCamera += EnableCurrentCamera;
+        MainEventSystem.current.onDisableCameras += HandleDisableCameras;
     }
+
+    private void EnableCurrentCamera() { canSetMap = true; }
+    private void HandleDisableCameras() { canSetMap = false; }
+
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && canSetMap)
         {
             // toggle mode
             SetMiniMapMode(currentMiniMapMode == MiniMapMode.Mini ? MiniMapMode.Fullscreen : MiniMapMode.Mini);
@@ -97,6 +109,7 @@ public class MiniMap : MonoBehaviour
                 currentMiniMapMode = MiniMapMode.Fullscreen;
                 SetFullMap();
                 MainEventSystem.current.DisableCameras();
+                canSetMap = true;
                 break;
         }
         CalculateTransformationMatrix();

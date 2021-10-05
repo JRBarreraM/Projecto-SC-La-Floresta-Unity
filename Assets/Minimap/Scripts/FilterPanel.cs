@@ -17,10 +17,10 @@ public class FilterPanel : MonoBehaviour
 
     private void Awake() {
         interactableObjects = new List<InteractableObject>(GameObject.FindObjectsOfType<InteractableObject>());
-        UIContent = transform.Find("Content").gameObject;
-        int children = transform.Find("Content/Filters").gameObject.transform.childCount;
+        UIContent = transform.Find("FilterContent").gameObject;
+        int children = transform.Find("FilterContent/Filters").gameObject.transform.childCount;
         for (int i = 0; i < children; ++i)
-            UIFilters.Add(transform.Find("Content/Filters").gameObject.transform.GetChild(i).gameObject);
+            UIFilters.Add(transform.Find("FilterContent/Filters").gameObject.transform.GetChild(i).gameObject);
         for (int i = 1; i < children; ++i)
             UIFilters[i].SetActive(false);
         UIContent.SetActive(false);
@@ -110,7 +110,7 @@ public class FilterPanel : MonoBehaviour
     public void SendData(){
         filters = new List<Filter>();
         bool errorFound = false;
-        foreach (Transform child in transform.Find("Content/Filters").gameObject.transform){
+        foreach (Transform child in transform.Find("FilterContent/Filters").gameObject.transform){
             if (child.gameObject.activeSelf){
                 attribute = child.Find("Attribute/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
                 operation = child.Find("Operator/Label").gameObject.GetComponent<TextMeshProUGUI>().text.ToString().Trim();
@@ -131,6 +131,7 @@ public class FilterPanel : MonoBehaviour
         if (errorFound)
             return;
         List<InteractableObject> filteredObjects = FilterController.ProccessFilters(interactableObjects, filters);
+        ResetAppliedFilters();
         FilterController.ActivateFilteredObjects(filteredObjects);
     }
 }
