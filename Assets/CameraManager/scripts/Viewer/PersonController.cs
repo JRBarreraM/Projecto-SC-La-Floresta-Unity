@@ -41,10 +41,12 @@ public class PersonController : MonoBehaviour
             Vector3 movementDir = Vector3.down * gravityForce;
 		    transform.Translate (movementDir * Time.deltaTime, Space.World);
         }
+
+        Debug.Log(groundCollition);
     }
 
     private void OnCollisionEnter(Collision collision){
-        if (collision.gameObject.tag == "Ground") { groundCollition = true; }
+        /* if (collision.gameObject.tag == "Ground") { groundCollition = true; } */
         if (collision.gameObject.tag == "selectableTag") {
             MainEventSystem.current.BeginInteraction();
 
@@ -68,6 +70,10 @@ public class PersonController : MonoBehaviour
             text.SetText("Press I to interact");
             infoDisplayOn = false;
         }
+    }
+
+    private void OnCollisionStay(Collision collision){
+        if (collision.gameObject.tag == "Ground") { groundCollition = true; }
     }
 
     private void OnCollisionExit(Collision collision){
