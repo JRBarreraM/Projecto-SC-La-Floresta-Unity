@@ -7,6 +7,10 @@ public class ThirdPersonController : MonoBehaviour {
 	public Transform camera;
 	public GameObject mesh;
 
+	[Header("Physics")]
+	public float gravity = 0.1f;
+	private float velocityY;
+
 	[Header("Movement Setting")]
 	public float walkSpeed = 2;
 	public float runSpeed = 6;
@@ -18,11 +22,13 @@ public class ThirdPersonController : MonoBehaviour {
 
 	private bool thirdPersonCameraEnabled = false;
 	private bool canMove = true;
+	private CharacterController controller;
 
 	Animator animator;
 
 	private void Start() {
 		animator = GetComponent<Animator> ();
+		controller = GetComponent<CharacterController> ();
 		MainEventSystem.current.onThirdPersonCamera += EnableThirdPersonCamera;
         MainEventSystem.current.offThirdPersonCamera += DisableThirdPersonCamera;
 		MainEventSystem.current.onDisableCameras += DisableMovement;
@@ -59,10 +65,20 @@ public class ThirdPersonController : MonoBehaviour {
 			float targetSpeed = ((running) ? runSpeed : walkSpeed) * inputDir.magnitude;
 			currentSpeed = Mathf.SmoothDamp (currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
+			velocityY += Time.deltaTime * gravity;
+			Vector3 velocity = transform.forward * currentSpeed + Vector3.up * velocityY;
+
 			if (canMove) {
-				transform.Translate (transform.forward * currentSpeed * Time.deltaTime, Space.World);
+				controller.Move (velocity * Time.deltaTime);
+				currentSpeed = new Vector2 (controller.velocity.x, controller.velocity.z).magnitude;
+				//transform.Translate (transform.forward * currentSpeed * Time.deltaTime, Space.World);
 			}
-			float animationSpeedPercent = ((running) ? 1 : .5f) * inputDir.magnitude;
+
+			if (controller.isGrounded) {
+				velocityY = 0;
+			}
+
+			float animationSpeedPercent = ((running) ? currentSpeed / runSpeed : currentSpeed / walkSpeed * .5f);
 			animator.SetFloat ("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
 		}
 	}

@@ -5,9 +5,14 @@ public class FirstPersonController : MonoBehaviour {
     public Transform camera;
     public GameObject mesh;
 
+    [Header("Physics")]
+    public float gravity = 0.1f;
+	private float velocityY;
+
     [Header("Movement Setting")]
     public float walkSpeed = 2;
 	public float runSpeed = 6;
+    public float freeMovementMultiplier = 2f;
     public float turnSmoothTime = 0.2f;
 	public float speedSmoothTime = 0.1f;
 	float turnSmoothVelocity;
@@ -26,8 +31,10 @@ public class FirstPersonController : MonoBehaviour {
 
     private bool firstPersonCameraEnabled = false;
     private bool freeCameraEnabled = false;
+    private CharacterController controller;
 
     private void Start() {
+        controller = GetComponent<CharacterController> ();
         // Suscripcion a los eventos de camara
         MainEventSystem.current.onFirstPersonCamera += EnableFirstPersonCamera;
         MainEventSystem.current.offFirstPersonCamera += DisableFirstPersonCamera;
@@ -65,6 +72,7 @@ public class FirstPersonController : MonoBehaviour {
     private void DisableFreeCamera() {
         if (freeCameraEnabled) {
             freeCameraEnabled = false;
+            controller.enabled = true;
         }
     }
 
@@ -115,15 +123,26 @@ public class FirstPersonController : MonoBehaviour {
 		float targetSpeed = ((running) ? runSpeed : walkSpeed) * inputDir.magnitude;
 		currentSpeed = Mathf.SmoothDamp (currentSpeed, targetSpeed, ref speedSmoothVelocity, speedSmoothTime);
 
-        Vector3 upMovement = Vector3.zero;
+        velocityY += 0;
+        Vector3 upMovement = Vector3.up * velocityY;
 
-        if (freeCameraEnabled){
-            upMovement = Vector3.up * input.y * walkSpeed;
+        if (freeCameraEnabled) {
+            controller.enabled = false;
+            upMovement = Vector3.up * input.y * freeMovementMultiplier *runSpeed;
+        } else {
+            controller.enabled = true;
         }
 
-        Vector3 movementDir = yDir * input.z * currentSpeed + xDir * input.x * currentSpeed + upMovement;
-
-		transform.Translate (movementDir * Time.deltaTime, Space.World);
+        Vector3 movementDir = (yDir * input.z + xDir * input.x) * currentSpeed;
+         if (freeCameraEnabled){
+            transform.Translate ((movementDir * freeMovementMultiplier * runSpeed + upMovement) * Time.deltaTime, Space.World);
+        } else {
+		    controller.Move ((movementDir + upMovement) * Time.deltaTime);
+        }
+        
+        if (controller.isGrounded) {
+            velocityY = 0;
+        }
     }
 
     private void CursorVisibility(bool visibility) {
