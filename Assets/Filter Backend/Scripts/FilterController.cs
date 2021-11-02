@@ -12,7 +12,7 @@ public static class FilterController
             List<InteractableObject> filteredObjects = new List<InteractableObject>();
             interactableObjects.ForEach(obj => {
                 switch (filter.name) {
-                    case "height":
+                    case "diameter_min":
                         int height_value = 0;
                         try {
                             height_value = Convert.ToInt32(filter.val);
@@ -43,38 +43,122 @@ public static class FilterController
                         }
                         break;
 
-                    case "age":
-                        int age_value = 0;
+                    case "diameter_max":
+                        int height_value = 0;
                         try {
-                            age_value = Convert.ToInt32(filter.val);
+                            height_value = Convert.ToInt32(filter.val);
                         }
                         catch(Exception e) {
                             Debug.Log(e);
                         }
-                        
+
                         switch (filter.op) {
                             case "<":
-                                if (obj.Age < age_value) filteredObjects.Add(obj);
+                                if (obj.Height < height_value) filteredObjects.Add(obj);
                                 break;
                             case ">":
-                                if (obj.Age > age_value) filteredObjects.Add(obj);
+                                if (obj.Height > height_value) filteredObjects.Add(obj);
                                 break;
                             case ">=":
-                                if (obj.Age >= age_value) filteredObjects.Add(obj);
+                                if (obj.Height >= height_value) filteredObjects.Add(obj);
                                 break;
                             case "<=":
-                                if (obj.Age <= age_value) filteredObjects.Add(obj);
+                                if (obj.Height <= height_value) filteredObjects.Add(obj);
                                 break;
                             case "=":
-                                if (obj.Age == age_value) filteredObjects.Add(obj);
+                                if (obj.Height == height_value) filteredObjects.Add(obj);
                                 break;
                             case "!=":
-                                if (obj.Age != age_value) filteredObjects.Add(obj);
+                                if (obj.Height != height_value) filteredObjects.Add(obj);
                                 break;
                         }
                         break;
 
-                    case "specie":
+                    case "tree_top_min":
+                        int height_value = 0;
+                        try {
+                            height_value = Convert.ToInt32(filter.val);
+                        }
+                        catch(Exception e) {
+                            Debug.Log(e);
+                        }
+
+                        switch (filter.op) {
+                            case "<":
+                                if (obj.Height < height_value) filteredObjects.Add(obj);
+                                break;
+                            case ">":
+                                if (obj.Height > height_value) filteredObjects.Add(obj);
+                                break;
+                            case ">=":
+                                if (obj.Height >= height_value) filteredObjects.Add(obj);
+                                break;
+                            case "<=":
+                                if (obj.Height <= height_value) filteredObjects.Add(obj);
+                                break;
+                            case "=":
+                                if (obj.Height == height_value) filteredObjects.Add(obj);
+                                break;
+                            case "!=":
+                                if (obj.Height != height_value) filteredObjects.Add(obj);
+                                break;
+                        }
+                        break;
+
+                    case "tree_top_max":
+                        int height_value = 0;
+                        try {
+                            height_value = Convert.ToInt32(filter.val);
+                        }
+                        catch(Exception e) {
+                            Debug.Log(e);
+                        }
+
+                        switch (filter.op) {
+                            case "<":
+                                if (obj.Height < height_value) filteredObjects.Add(obj);
+                                break;
+                            case ">":
+                                if (obj.Height > height_value) filteredObjects.Add(obj);
+                                break;
+                            case ">=":
+                                if (obj.Height >= height_value) filteredObjects.Add(obj);
+                                break;
+                            case "<=":
+                                if (obj.Height <= height_value) filteredObjects.Add(obj);
+                                break;
+                            case "=":
+                                if (obj.Height == height_value) filteredObjects.Add(obj);
+                                break;
+                            case "!=":
+                                if (obj.Height != height_value) filteredObjects.Add(obj);
+                                break;
+                        }
+                        break;
+
+                    case "type":
+                        switch (filter.op) {
+                            case "=":
+                                if (obj.Specie == filter.val) filteredObjects.Add(obj);
+                                break;
+                            case "!=":
+                                if (obj.Specie != filter.val) filteredObjects.Add(obj);
+                                break;
+                        }
+                        break;
+
+                    case "sname":
+                        switch (filter.op) {
+                            case "=":
+                                if (obj.Specie == filter.val) filteredObjects.Add(obj);
+                                break;
+                            case "!=":
+                                if (obj.Specie != filter.val) filteredObjects.Add(obj);
+                                break;
+                        }
+                        break;
+
+                    case "species":
                         switch (filter.op) {
                             case "=":
                                 if (obj.Specie == filter.val) filteredObjects.Add(obj);
