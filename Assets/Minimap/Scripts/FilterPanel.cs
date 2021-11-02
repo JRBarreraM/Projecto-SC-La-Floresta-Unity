@@ -70,25 +70,8 @@ public class FilterPanel : MonoBehaviour
         string error = "";
         switch (attribute)
         {
-            case "height":
-                if(Int32.TryParse(value, out temp)){
-                    if (temp < 0){
-                        error = "Input must be positive integer";
-                    }
-                }else{
-                    error = "Input must be numeric for attribute";
-                }
-                break;
-            case "age":
-                if(Int32.TryParse(value, out temp)){
-                    if (temp < 0){
-                        error = "Input must be positive integer";
-                    }
-                }else{
-                    error = "Input must be numeric for attribute";
-                }
-                break;
-            case "specie":
+
+            case "type":
                 switch (operation)
                 {
                     case ">":
@@ -101,6 +84,75 @@ public class FilterPanel : MonoBehaviour
                         break;
                 }
                 break;
+
+            case "sname":
+                switch (operation)
+                {
+                    case ">":
+                        error = "Invalid operator for attribute";
+                        break;
+                    case "<":
+                        error = "Invalid operator for attribute";
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case "species":
+                switch (operation)
+                {
+                    case ">":
+                        error = "Invalid operator for attribute";
+                        break;
+                    case "<":
+                        error = "Invalid operator for attribute";
+                        break;
+                    default:
+                        break;
+                }
+                break;
+
+            case "diameter_min":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+
+            case "diameter_max":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+
+            case "tree_top_min":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+
+            case "tree_top_max":
+                if(Int32.TryParse(value, out temp)){
+                    if (temp < 0){
+                        error = "Input must be positive integer";
+                    }
+                }else{
+                    error = "Input must be numeric for attribute";
+                }
+                break;
+
             default:
                 break;
         }
