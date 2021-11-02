@@ -5,6 +5,7 @@ using TMPro;
 
 public class InteractableObject : MonoBehaviour
 {
+    [SerializeField]
     private string type;
     [SerializeField]
     private string sname;
@@ -18,7 +19,7 @@ public class InteractableObject : MonoBehaviour
     private int tree_top_min;
     [SerializeField]
     private int tree_top_max;
-    [SerializeField]
+
     private TextMeshProUGUI text;
     private string dataShow;
     [SerializeField]
@@ -35,7 +36,7 @@ public class InteractableObject : MonoBehaviour
 
     private void Awake(){
         text = GameObject.Find("ObjectInfo").transform.GetChild(1).transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-        icon = Instantiate(iconPrefab, new Vector3(this.transform.position.x, this.transform.position.y + this.transform.lossyScale.y + 1.5f, this.transform.position.z), Quaternion.identity, transform);
+        icon = Instantiate(iconPrefab, new Vector3(this.transform.position.x, this.transform.position.y + this.transform.lossyScale.y + 15.0f, this.transform.position.z), Quaternion.identity, transform);
         icon.Hide();
     }
 

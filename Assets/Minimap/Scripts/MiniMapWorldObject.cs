@@ -7,7 +7,7 @@ public class MiniMapWorldObject : MonoBehaviour
     private bool isPlayer = false;
 
     public Sprite Icon;
-    public Color IconColor = Color.white;
+    public Color IconColor = Color.green;
     public string Text;
     public int TextSize = 10;
 
