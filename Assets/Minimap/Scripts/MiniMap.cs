@@ -186,7 +186,7 @@ public class MiniMap : MonoBehaviour
     void CalculateTransformationMatrix()
     {
         var miniMapDimensions = contentRectTransform.rect.size;
-        var terrainDimensions = new Vector2(30, 30);
+        var terrainDimensions = new Vector2(80, 80);
         var scaleRatio = miniMapDimensions / terrainDimensions;
         var translation = new Vector2(0, 0);
         transformationMatrix = Matrix4x4.TRS(translation, Quaternion.identity, scaleRatio);
