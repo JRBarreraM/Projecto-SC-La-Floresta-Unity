@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using TMPro;
 
@@ -20,10 +19,19 @@ public class InteractableObject : MonoBehaviour
     [SerializeField]
     private int tree_top_max;
 
-    private TextMeshProUGUI text;
-    private string dataShow;
+    [SerializeField]
+    private float _height;
+    [SerializeField]
+    private float _diameter;
+    [SerializeField]
+    private float _topDiameterNS;
+    [SerializeField]
+    private float _topDiameterEW;
+
     [SerializeField]
     private FilterArrow iconPrefab;
+    
+    private TextMeshProUGUI text;
     private FilterArrow icon;
 
     public string Type { get { return type; } set {} }
@@ -51,14 +59,14 @@ public class InteractableObject : MonoBehaviour
     }
 
     public void ShowData(){
-        dataShow = "";
-        dataShow += "Type: " + type + "\n";
-        dataShow += "Sname: " + sname + "\n";
-        dataShow += "Species: " + species + "\n";
-        dataShow += "Diameter min: " + diameter_min.ToString() + "\n";
-        dataShow += "Diameter max: " + diameter_max.ToString() + "\n";
-        dataShow += "Tree top min: " + tree_top_min.ToString() + "\n";
-        dataShow += "Tree top max: " + tree_top_max.ToString() + "\n";
+        StringBuilder dataShow = new StringBuilder();
+        dataShow.Append($"Type: {Type} \n");
+        dataShow.Append($"Specie: {Species} \n");
+        dataShow.Append($"Common Name: {Sname} \n");
+        dataShow.Append($"Diameter min: {Diameter_min} \n");
+        dataShow.Append($"Diameter max: {Diameter_max} \n");
+        dataShow.Append($"Tree top min: {Tree_top_min} \n");
+        dataShow.Append($"Tree top max: {Tree_top_max} \n");
         text.SetText(dataShow);
     }
 }
